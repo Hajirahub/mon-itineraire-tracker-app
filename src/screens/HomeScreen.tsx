@@ -1,40 +1,53 @@
 // src/screens/HomeScreen.tsx
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Button } from 'react-native-paper';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../App';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import MapBanner from '../components/MapBanner';
+import TripCarousel, { Trip } from '../components/TripCarousel';
+import ActionsRow from '../components/ActionsRow';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+// Stub de données pour le carousel
+const mockTrips: Trip[] = [
+  {
+    id: '1',
+    title: 'Évasion à Paris',
+    coverImage: 'https://example.com/paris.jpg',
+    days: 5,
+    steps: 8,
+  },
+  {
+    id: '2',
+    title: 'Week‑end Montagne',
+    coverImage: 'https://example.com/montagne.jpg',
+    days: 3,
+    steps: 5,
+  },
+];
 
-export default function HomeScreen({ navigation }: Props) {
+// Hook temporaire pour récupérer les voyages
+function useTrips() {
+  return mockTrips;
+}
+
+export default function HomeScreen() {
+  const trips = useTrips();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bienvenue dans MonItineraireTracker !</Text>
-      <Button
-        mode="contained"
-        onPress={() => navigation.navigate('Home')}
-        style={styles.button}
-      >
-        C’est parti !
-      </Button>
-    </View>
+    <SafeAreaView style={styles.container}>
+      {/* Bandeau Mini‑map */}
+      <MapBanner />
+
+      {/* Carousel de voyages/aventures */}
+      <TripCarousel trips={trips} />
+
+      {/* Row d’actions */}
+      <ActionsRow />
+    </SafeAreaView>
   );
 }
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 24,
-    textAlign: 'center',
-  },
-  button: {
-    paddingHorizontal: 16,
+    backgroundColor: '#FFFFFF',
   },
 });
